@@ -9,7 +9,8 @@ var main_view = new Vue({
         data_sources: [],
         new_source: { name: "", color: "#", url: "http://", is_default: false },
         mode: "new",
-        client: new HttpClient()
+        client: new HttpClient(),
+        show_loader: false
     },
     mounted() {
         self = this;
@@ -27,6 +28,7 @@ var main_view = new Vue({
 
 
             var counter = 0;
+            self.show_loader = true;
             for (var d_source of self.data_sources) {
                 self.client.get(d_source, function (response, data, status) {
                     counter = counter + 1;
@@ -44,9 +46,11 @@ var main_view = new Vue({
                     }
 
                     self.setUpCharts(self.data_array);
-                    // if (self.data_sources.length == counter) {
-                    //     self.setUpCharts(self.data_array);
-                    // }
+                    if (self.data_sources.length == counter) {
+                        //self.setUpCharts(self.data_array);
+                        self.show_loader = false;
+
+                    }
 
                 });
 
