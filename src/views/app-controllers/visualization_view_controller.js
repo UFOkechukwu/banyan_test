@@ -45,9 +45,9 @@ var main_view = new Vue({
                         self.data_array.push(et_avg);
                     }
 
-                    self.setUpCharts(self.data_array);
+                    //self.setUpCharts(self.data_array);
                     if (self.data_sources.length == counter) {
-                        //self.setUpCharts(self.data_array);
+                        self.setUpCharts(self.data_array);
                         self.show_loader = false;
 
                     }
