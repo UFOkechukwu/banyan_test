@@ -1,0 +1,86 @@
+<body>
+    <div id="my-content-view">
+        <div id="bd_main_view_vue">
+
+
+
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="card materialize-table" style="padding-bottom: 10px;">
+
+                        <div style="width: 50%; height:50%">
+                            <center>
+                                <canvas id="visualization_chart" width="200" height="200"></canvas>
+                            </center>
+                        </div>
+
+
+
+
+                        <!-- Modal: Data Edit Input Modal -->
+                        <div id="data-source-input-modal" class="modal modal-fixed-footer"
+                            style="width: 80%; height: 80;">
+                            <div class="modal-content">
+                                <h4>Data Sources</h4>
+                                <div class="row">
+
+                                    <div v-for="item in data_sources">
+                                        <div class="col s3 input-field ">
+                                            <input id="source_name" type="text" v-model="item.name">
+                                            <label for="source_name" class="active">Name</label>
+                                        </div>
+                                        <div class="col s3 input-field ">
+                                            <input id="source_color" type="text" v-model="item.color">
+                                            <label for="source_color" class="active">Color</label>
+                                        </div>
+                                        <div class="col s6 input-field" v-if="item.is_default == true">
+                                            <input id="source_url" type="text" v-model="item.url">
+                                            <label for="source_url" class="active">URL</label>
+                                        </div>
+                                        <div class="col s5 input-field" v-if="item.is_default == false">
+                                            <input id="source_url" type="text" v-model="item.url">
+                                            <label for="source_url" class="active">URL</label>
+                                        </div>
+                                        <div class="col s1 input-field" v-if="item.is_default == false">
+                                            <a class="btn red" v-on:click="deleteSource(item.id);">DELETE</a>
+                                        </div>
+
+                                    </div>
+
+                                    <div>
+                                        <div class="col s3 input-field ">
+                                            <input id="new_source_name" type="text" v-model="new_source.name">
+                                            <label for="new_source_name" class="active">Name</label>
+                                        </div>
+                                        <div class="col s3 input-field ">
+                                            <input id="new_source_color" type="text" v-model="new_source.color">
+                                            <label for="new_source_color" class="active">Color</label>
+                                        </div>
+                                        <div class="col s6 input-field ">
+                                            <input id="new_source_url" type="text" v-model="new_source.url">
+                                            <label for="new_source_url" class="active">URL</label>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a class="modal-action waves-effect waves-green btn green lighten-1"
+                                    v-on:click="addNewSource();">SAVE</a>
+                                <a class="modal-action modal-close waves-effect waves-grey btn grey lighten-1"
+                                    v-on:click="resetNewSourceData()">CLOSE</a>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
