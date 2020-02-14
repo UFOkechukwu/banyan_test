@@ -78,7 +78,7 @@ var HttpClient = function() {
                 
         }
 
-        if(!window.location.origin.includes("herokuapp.com") && d_source.url.includes("localhost")){
+        if(d_source.url.includes("localhost")){
             anHttpRequest.open( "GET", d_source.url, true );   
         }else{
             anHttpRequest.open( "GET", proxy_url + d_source.url, true );   

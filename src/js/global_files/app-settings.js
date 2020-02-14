@@ -6,19 +6,19 @@ function getGetDataSources() {
     var _default_source_urls = [
         {
             name:"Colorado Springs, Colorado",
-            url: window.location.origin + "/banyan_test/src/views/app-controllers/data_colorado.html",
+            url: "http://access.weatherreach.com/HistoricalTable?StationID=429&TableTimeInt=1440&Range=Last%20Year",
             is_default:true,
             color:"#f8c471"
         },
         {
             name:"Louisville, Kentucky",
-            url: window.location.origin + "/banyan_test/src/views/app-controllers/data_louisville_ky.html",
+            url: "http://access.weatherreach.com/HistoricalTable?StationID=350&TableTimeInt=1440&Range=Last%20Year",
             is_default:true,
             color:"#8e44ad"
         },
         {
             name:"Forest Grove, Oregon",
-            url:window.location.origin + "/banyan_test/src/views/app-controllers/data_forest_grove.html",
+            url: "http://access.weatherreach.com/HistoricalTable?StationID=219&TableTimeInt=1440&Range=Last%20Year",
             is_default:true,
             color:" #1abc9c"
         }              

@@ -25,10 +25,6 @@ var main_view = new Vue({
             self.data_sources = getGetDataSources();
             self.data_array = [];
 
-            // var strWindowFeatures = "location=yes,height=570,width=520,scrollbars=yes,status=yes";
-            // var URL = "http://access.weatherreach.com/HistoricalTable?StationID=219&TableTimeInt=1440&Range=Last%20Year";
-            // var win = window.open(URL, "_blank", strWindowFeatures);
-            // console.log(win);
 
             var counter = 0;
             for (var d_source of self.data_sources) {
@@ -47,9 +43,10 @@ var main_view = new Vue({
                         self.data_array.push(et_avg);
                     }
 
-                    if (self.data_sources.length == counter) {
-                        self.setUpCharts(self.data_array);
-                    }
+                    self.setUpCharts(self.data_array);
+                    // if (self.data_sources.length == counter) {
+                    //     self.setUpCharts(self.data_array);
+                    // }
 
                 });
 
