@@ -78,14 +78,14 @@ var HttpClient = function() {
                 
         }
 
-        if(d_source.url.includes("localhost")){
+        if(d_source.url.includes("banyantest") || d_source.url.includes("localhost")){
             anHttpRequest.open( "GET", d_source.url, true );   
         }else{
             anHttpRequest.open( "GET", proxy_url + d_source.url, true );   
         }
           
-        anHttpRequest.setRequestHeader('Access-Control-Allow-Headers', '*');
-        anHttpRequest.setRequestHeader('Access-Control-Allow-Origin', '*');
+        // anHttpRequest.setRequestHeader('Access-Control-Allow-Headers', '*');
+        // anHttpRequest.setRequestHeader('Access-Control-Allow-Origin', '*');
 
 
 
