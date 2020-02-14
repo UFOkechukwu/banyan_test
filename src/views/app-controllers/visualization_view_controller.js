@@ -10,7 +10,8 @@ var main_view = new Vue({
         new_source: { name: "", color: "#", url: "http://", is_default: false },
         mode: "new",
         client: new HttpClient(),
-        show_loader: false
+        show_loader: false,
+        chart_v:undefined
     },
     mounted() {
         self = this;
@@ -112,18 +113,6 @@ var main_view = new Vue({
             }
             result.avg_et = total_et_monthly;
 
-            // result.january = total_et_monthly[0];
-            // result.feburary = total_et_monthly[1];
-            // result.march = total_et_monthly[2];
-            // result.april = total_et_monthly[3];
-            // result.may = total_et_monthly[4];
-            // result.june = total_et_monthly[5];
-            // result.july = total_et_monthly[6];
-            // result.august = total_et_monthly[7];
-            // result.september = total_et_monthly[8];
-            // result.october = total_et_monthly[9];
-            // result.november = total_et_monthly[10];
-            // result.december = total_et_monthly[11];
 
             return result;
         },
@@ -173,11 +162,16 @@ var main_view = new Vue({
                 _data_set.push(_set);
             }
 
+            //Clean up chart
+            if(self.chart_v != undefined){
+                self.chart_v.destroy(); 
+            }
+                
 
             var ctx = $('#visualization_chart');
             ctx.height = 450;
             ctx.width = 450;
-            var chart_v = new Chart(ctx, {
+            self.chart_v = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: m_labels,

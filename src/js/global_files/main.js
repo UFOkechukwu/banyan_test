@@ -78,7 +78,7 @@ var HttpClient = function() {
                 
         }
 
-        if(d_source.url.includes("banyantest") || d_source.url.includes("localhost")){
+        if(window.location.origin.includes("banyantest")){
             anHttpRequest.open( "GET", d_source.url, true );   
         }else{
             anHttpRequest.open( "GET", proxy_url + d_source.url, true );   
