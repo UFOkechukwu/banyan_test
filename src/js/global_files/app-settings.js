@@ -6,19 +6,19 @@ function getGetDataSources() {
     var _default_source_urls = [
         {
             name:"Colorado Springs, Colorado",
-            url: "http://banyantest.herokuapp.com/data_colorado.html",
+            url: "https://banyantest.herokuapp.com/data_colorado.html",
             is_default:true,
             color:"#f8c471"
         },
         {
             name:"Louisville, Kentucky",
-            url: "http://banyantest.herokuapp.com/data_louisville_ky.html",
+            url: "https://banyantest.herokuapp.com/data_louisville_ky.html",
             is_default:true,
             color:"#8e44ad"
         },
         {
             name:"Forest Grove, Oregon",
-            url: "http://banyantest.herokuapp.com/data_forest_grove.html",
+            url: "https://banyantest.herokuapp.com/data_forest_grove.html",
             is_default:true,
             color:" #1abc9c"
         }              
