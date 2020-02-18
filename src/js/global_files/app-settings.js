@@ -21,7 +21,25 @@ function getGetDataSources() {
             url: "https://banyantest.herokuapp.com/data_forest_grove.html",
             is_default:true,
             color:" #1abc9c"
-        }              
+        },
+        {
+            name:"Colorado Springs, Colorado",
+            url: "http://banyantest.herokuapp.com/data_colorado.html",
+            is_default:true,
+            color:"#f8c471"
+        },
+        {
+            name:"Louisville, Kentucky",
+            url: "http://banyantest.herokuapp.com/data_louisville_ky.html",
+            is_default:true,
+            color:"#8e44ad"
+        },
+        {
+            name:"Forest Grove, Oregon",
+            url: "http://banyantest.herokuapp.com/data_forest_grove.html",
+            is_default:true,
+            color:" #1abc9c"
+        }               
     ];
 
     var stored_sources = JSON.parse(localStorage.getItem('stored_sources')) || [];
