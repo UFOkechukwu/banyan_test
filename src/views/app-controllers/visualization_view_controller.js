@@ -74,7 +74,6 @@ var main_view = new Vue({
             //calculate standard deviation
             var sd_value = self.standardDeviation(analyze_data.all_et_val, avg_et_counter.total);
 
-            debugger;
             //get averages
             var et_avg = self.averageEtByLocation(analyze_data.json_data, analyze_data.name, analyze_data.color, sd_value);
                         
