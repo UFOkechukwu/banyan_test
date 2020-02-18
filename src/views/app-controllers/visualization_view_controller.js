@@ -38,24 +38,66 @@ var main_view = new Vue({
                     if (status == 200) {
                         var json_data = self.getTableJSONData(response);
                         //get averages
-                        var et_avg = self.averageEtByLocation(json_data, data.name, data.color);
+                        var et_avg = self.averageEtByLocation(json_data, data.name, data.color, null);
                         
                         //store averages...
                         self.data_array.push(et_avg);
                     }
 
-                    //self.setUpCharts(self.data_array);
-                    self.setUpSingleCharts(self.data_array);
                     self.setUpCharts(self.data_array);
                     if (self.data_sources.length == counter) {
                         //self.setUpCharts(self.data_array);
                         self.show_loader = false;
+                        //self.setUpSingleCharts(self.data_array);
+                        
+                        //do analysis on data then show charts
+                        self.doAnalysisRequirementOnData(self.data_array);
                     }
 
                 });
 
             }
 
+        },
+        doAnalysisRequirementOnData(data_array){
+            //Identify the location with the highest average ET value for each month of the year
+            var avg_et_counter = {total: 0, id: -1};
+
+            for (var i = 0; i < data_array.length; i++){
+                if(data_array[i].avg_et_total > avg_et_counter.total){
+                    avg_et_counter.total = data_array[i].avg_et_total;
+                    avg_et_counter.id = i;
+                }
+            }
+
+            var analyze_data = data_array[avg_et_counter.id];
+            //calculate standard deviation
+            var sd_value = self.standardDeviation(analyze_data.all_et_val, avg_et_counter.total);
+
+            debugger;
+            //get averages
+            var et_avg = self.averageEtByLocation(analyze_data.json_data, analyze_data.name, analyze_data.color, sd_value);
+                        
+            //delete data from array before adding analyzed result...
+            data_array.splice(avg_et_counter.id, 1);
+
+            //store averages...
+            self.data_array.push(et_avg);
+
+            //Setup Charts
+            self.setUpSingleCharts(self.data_array);
+        },
+        standardDeviation(numbers_arr, mean) {
+            //calculate standard deviation
+            var mean_diff_sqr = 0;
+
+            for(var key in numbers_arr){
+                mean_diff_sqr += Math.pow((parseFloat(numbers_arr[key]) - mean),2);
+            }
+            
+            //return standard deviation...
+            return Math.sqrt(mean_diff_sqr/numbers_arr.length);
+            
         },
         getTableJSONData(html_string) {
             let doc = new DOMParser().parseFromString(html_string, 'text/html');
@@ -91,31 +133,59 @@ var main_view = new Vue({
 
             return response_data;
         },
-        averageEtByLocation(loc_data, name, color) {
+        averageEtByLocation(loc_data, name, color, sd_value) {
             total_et_monthly = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             total_et_days = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            all_et_val = [];
 
             for (var entry of loc_data) {
                 //split date string take month value 
                 month = parseInt(entry.date.split("/")[0]);
-                total_et_monthly[month - 1] = total_et_monthly[month - 1] + parseFloat(entry.et);
-                total_et_days[month - 1] = total_et_days[month - 1] + 1;
+                et_val = parseFloat(entry.et);
+                if(sd_value == null || Math.abs(sd_value - et_val) < 2){
+                    //sd_value is null
+                    total_et_monthly[month - 1] = total_et_monthly[month - 1] + et_val;
+                    total_et_days[month - 1] = total_et_days[month - 1] + 1;
+
+                    //needed for analysis: average et for a year (all months...)
+                    all_et_val.push(et_val);
+                }
+                
             }
 
             result = {};
+            result.avg_high = 0;    //store highest et average for all months...
             for (var i = 0; i < total_et_days.length; i++) {
+                //Get average for ET val per month...
                 total_et_monthly[i] = total_et_monthly[i] / total_et_days[i];
                 if (i == 0 || (i > 0 && total_et_monthly[i] > result.avg_high)) {
                     result.avg_high = total_et_monthly[i];
                     result.month = i;   //0
                 }
             }
+
+            //average et for each month of the year...
             result.avg_et = total_et_monthly;
+
+            //------------------------------------------------------------
+            //needed for analysis: average et for a year (all months...)
+            var _total_et = 0
+            for(var _avg_et of total_et_monthly){
+                _total_et = _total_et + _avg_et;
+            }
+            result.avg_et_total = _total_et / total_et_monthly.length;
+            result.all_et_val = all_et_val;
+            //-------------------------------------------------------------
+
+
 
             //set color
             result.color = color;
             //set name
             result.name = name;
+
+            //keep copy of loc_data for further processing
+            result.json_data = loc_data;
 
 
             return result;
@@ -126,33 +196,7 @@ var main_view = new Vue({
             m_data = [];
             m_colors = [];
 
-            //Not certain about question requirements
-            // for (var d of data_array) {
-            //     m_labels.push(d.name);
-            //     m_data.push(d.avg_high);
-            //     m_colors.push(d.color);
-            // }
-
             m_labels = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-            //Not certain about question requirements
-            // for(var i = 0; i < data_array.length; i++){
-            //     if(i==0){
-            //         for(var m1 = 0; m1<12; m1++){
-            //             m_data[m1] = data_array[i].avg_et[m1];
-            //             m_colors[m1] = data_array[i].color;
-            //         }
-            //     }else{
-            //         for(var m2 = 0; m2<12; m2++){
-            //             if(m_data[m2] < data_array[i].avg_et[m2]){
-            //                 m_data[m2] = data_array[i].avg_et[m2];
-            //                 m_colors[m2] = data_array[i].color;
-            //             }
-            //         }
-
-            //     }
-
-            // }
 
 
             var _data_set = [];
@@ -205,13 +249,6 @@ var main_view = new Vue({
             m_labels = [];
             m_data = [];
             m_colors = [];
-
-            //Not certain about question requirements
-            // for (var d of data_array) {
-            //     m_labels.push(d.name);
-            //     m_data.push(d.avg_high);
-            //     m_colors.push(d.color);
-            // }
 
             y_labels = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
