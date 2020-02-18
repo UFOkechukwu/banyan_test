@@ -7,7 +7,7 @@ var main_view = new Vue({
         data_array: [],
         avg_month_et_loc: [],
         data_sources: [],
-        new_source: { name: "", color: "#", url: "http://", is_default: false },
+        new_source: { name: "", color: "#03f8fc", url: "https://", is_default: false },
         mode: "new",
         client: new HttpClient(),
         show_loader: false,
@@ -49,7 +49,7 @@ var main_view = new Vue({
                         //self.setUpCharts(self.data_array);
                         self.show_loader = false;
                         //self.setUpSingleCharts(self.data_array);
-                        
+
                         //do analysis on data then show charts
                         self.doAnalysisRequirementOnData(self.data_array);
                     }
