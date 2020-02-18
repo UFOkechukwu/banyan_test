@@ -9,15 +9,21 @@
                 <div class="col s12">
                     <div class="card materialize-table" style="padding-bottom: 10px;">
 
-                        <center></center>
-                        <div v-if="show_loader == true" style="width: 80px; height:80px;">
-                            <div class="loader"></div>
-                            <div>Data is loading. Please wait...</div>
-                        </div>
-                        
+                        <center>
+                            <div v-if="show_loader == true" style="width: 180px; height:80px;">
+                                <div class="loader"></div>
+                                <div>Data is loading. Please wait...</div>
+                            </div>
+                        </center>
+
                         <div style="width: 50%; height:50%">
                             <center>
                                 <canvas id="visualization_chart" width="200" height="200"></canvas>
+                            </center>
+                        </div>
+                        <div style="width: 50%; height:50%">
+                            <center>
+                                <canvas id="visualization_chart_2" width="200" height="200"></canvas>
                             </center>
                         </div>
 

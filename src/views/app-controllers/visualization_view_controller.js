@@ -11,7 +11,8 @@ var main_view = new Vue({
         mode: "new",
         client: new HttpClient(),
         show_loader: false,
-        chart_v:undefined
+        chart_v:undefined,
+        chart_v2:undefined
     },
     mounted() {
         self = this;
@@ -45,6 +46,7 @@ var main_view = new Vue({
 
                     //self.setUpCharts(self.data_array);
                     self.setUpSingleCharts(self.data_array);
+                    self.setUpCharts(self.data_array);
                     if (self.data_sources.length == counter) {
                         //self.setUpCharts(self.data_array);
                         self.show_loader = false;
@@ -165,15 +167,15 @@ var main_view = new Vue({
             }
 
             //Clean up chart
-            if(self.chart_v != undefined){
-                self.chart_v.destroy(); 
+            if(self.chart_v2 != undefined){
+                self.chart_v2.destroy(); 
             }
                 
 
-            var ctx = $('#visualization_chart');
+            var ctx = $('#visualization_chart_2');
             ctx.height = 450;
             ctx.width = 450;
-            self.chart_v = new Chart(ctx, {
+            self.chart_v2 = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: m_labels,
