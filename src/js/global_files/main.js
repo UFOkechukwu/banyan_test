@@ -78,9 +78,11 @@ var HttpClient = function() {
                 
         }
 
-        if(window.location.origin.includes("banyantest") && d_source.url.includes("herokuapp")){
+        if((window.location.origin.includes("banyantest") && d_source.url.includes("herokuapp")) 
+        || d_source.url.includes("localhost")){
             anHttpRequest.open( "GET", d_source.url, true );   
         }else{
+
             anHttpRequest.open( "GET", proxy_url + d_source.url, true );   
         }
           

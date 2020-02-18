@@ -9,13 +9,12 @@
                 <div class="col s12">
                     <div class="card materialize-table" style="padding-bottom: 10px;">
 
-                        <center>
-                            <div v-if="show_loader == true" style="width: 200px; height:80px;">
-                                <div class="loader"></div>
-                                <div>Data is loading. Please wait...</div>
-                            </div>
-                        </center>
-
+                        <center></center>
+                        <div v-if="show_loader == true" style="width: 80px; height:80px;">
+                            <div class="loader"></div>
+                            <div>Data is loading. Please wait...</div>
+                        </div>
+                        
                         <div style="width: 50%; height:50%">
                             <center>
                                 <canvas id="visualization_chart" width="200" height="200"></canvas>

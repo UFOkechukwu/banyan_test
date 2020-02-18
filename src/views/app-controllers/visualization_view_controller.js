@@ -37,16 +37,14 @@ var main_view = new Vue({
                     if (status == 200) {
                         var json_data = self.getTableJSONData(response);
                         //get averages
-                        var et_avg = self.averageEtByLocation(json_data);
-                        //set color
-                        et_avg.color = data.color;
-                        //set name
-                        et_avg.name = data.name;
+                        var et_avg = self.averageEtByLocation(json_data, data.name, data.color);
+                        
                         //store averages...
                         self.data_array.push(et_avg);
                     }
 
-                    self.setUpCharts(self.data_array);
+                    //self.setUpCharts(self.data_array);
+                    self.setUpSingleCharts(self.data_array);
                     if (self.data_sources.length == counter) {
                         //self.setUpCharts(self.data_array);
                         self.show_loader = false;
@@ -91,7 +89,7 @@ var main_view = new Vue({
 
             return response_data;
         },
-        averageEtByLocation(loc_data) {
+        averageEtByLocation(loc_data, name, color) {
             total_et_monthly = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             total_et_days = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -111,6 +109,11 @@ var main_view = new Vue({
                 }
             }
             result.avg_et = total_et_monthly;
+
+            //set color
+            result.color = color;
+            //set name
+            result.name = name;
 
 
             return result;
@@ -174,6 +177,84 @@ var main_view = new Vue({
                 type: 'bar',
                 data: {
                     labels: m_labels,
+                    datasets: _data_set
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                maxRotation: 90,
+                                minRotation: 80
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        },
+        setUpSingleCharts(data_array) {
+
+            m_labels = [];
+            m_data = [];
+            m_colors = [];
+
+            //Not certain about question requirements
+            // for (var d of data_array) {
+            //     m_labels.push(d.name);
+            //     m_data.push(d.avg_high);
+            //     m_colors.push(d.color);
+            // }
+
+            y_labels = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+            //Not certain about question requirements
+            for(var i = 0; i < data_array.length; i++){
+                if(i==0){
+                    for(var m1 = 0; m1<12; m1++){
+                        m_data[m1] = data_array[i].avg_et[m1];
+                        m_colors[m1] = data_array[i].color;
+                        m_labels.push(data_array[i].name);
+                    }
+                }else{
+                    for(var m2 = 0; m2<12; m2++){
+                        if(m_data[m2] < data_array[i].avg_et[m2]){
+                            m_data[m2] = data_array[i].avg_et[m2];
+                            m_colors[m2] = data_array[i].color;
+                            m_labels[m2] = data_array[i].name;
+                        }
+                    }
+                }
+
+            }
+
+
+            //Clean up chart
+            if(self.chart_v != undefined){
+                self.chart_v.destroy(); 
+            }
+
+            var _data_set = [{
+                label: Array.from(new Set(m_labels)),
+                data: m_data,
+                backgroundColor: m_colors,
+                borderWidth: 1
+            }];
+                
+
+            var ctx = $('#visualization_chart');
+            ctx.height = 450;
+            ctx.width = 450;
+            self.chart_v = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: y_labels,
                     datasets: _data_set
                 },
                 options: {
