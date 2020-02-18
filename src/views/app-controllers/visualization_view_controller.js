@@ -243,7 +243,7 @@ var main_view = new Vue({
             }
 
             var _data_set = [{
-                label: Array.from(new Set(m_labels)),
+                labels: m_labels,
                 data: m_data,
                 backgroundColor: m_colors,
                 borderWidth: 1
@@ -274,6 +274,15 @@ var main_view = new Vue({
                                 beginAtZero: true
                             }
                         }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                var dataset = data.datasets[tooltipItem.datasetIndex];
+                                var index = tooltipItem.index;
+                                return dataset.labels[index] + ': ' + dataset.data[index];
+                            }
+                        }
                     }
                 }
             });
